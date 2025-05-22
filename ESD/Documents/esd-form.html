@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESD Check Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>ESD Check Form</h2>
+    <form id="esdForm">
+      <label for="boxId">Box ID</label>
+      <input type="text" id="boxId" name="boxId" placeholder="e.g. ESD-001" required />
+
+      <label for="voltage">Charge Voltage (V)</label>
+      <input type="number" id="voltage" name="voltage" required />
+
+      <label for="resistance">Surface Resistance (Ohms)</label>
+      <input type="text" id="resistance" name="resistance" placeholder="e.g. 10^4" required />
+
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date" required />
+
+      <label for="checkedBy">Checked By</label>
+      <input type="text" id="checkedBy" name="checkedBy" placeholder="e.g. Somchai" required />
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    // ✅ โหลด Box ID จาก URL ถ้ามีพารามิเตอร์ box=...
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const boxId = urlParams.get('box');
+      if (boxId) {
+        const boxInput = document.getElementById('boxId');
+        boxInput.value = boxId;
+        boxInput.readOnly = true; // ล็อคไม่ให้แก้ไข
+      }
+    });
+
+    // 📦 แสดงข้อมูลที่กรอก
+    document.getElementById('esdForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = new FormData(e.target);
+      const formData = Object.fromEntries(data.entries());
+      alert("Form submitted!\n" + JSON.stringify(formData, null, 2));
+    });
+  </script>
+</body>
+</html>
+
